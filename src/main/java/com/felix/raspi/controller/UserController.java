@@ -21,7 +21,7 @@ import java.util.Set;
  */
 
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/secured/user")
 public class UserController extends GenericController<Users, Integer> {
 
     private UserService service;
@@ -39,27 +39,6 @@ public class UserController extends GenericController<Users, Integer> {
     @ResponseBody
     public List<Users> getUsers() {
         return service.findAll();
-    }
-
-
-    @RequestMapping(
-            value = "/sign-up",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            method = RequestMethod.POST)
-    @ResponseBody
-    public Users signUp(@RequestBody Users users){
-        setUserRole(users);
-        service.create(users);
-        return users;
-    }
-
-    private void setUserRole(Users users){
-        Set<Authorities> roles = new HashSet<>();
-        roles.add(new Authorities(Authorities.ROLE_USER));
-        if (users != null) {
-            users.setRoles(roles);
-        }
     }
 
 }

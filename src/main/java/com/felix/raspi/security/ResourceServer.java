@@ -27,8 +27,8 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/users").hasRole(Authorities.Authority.ADMIN.name())
-                .antMatchers("/greeting").authenticated();
+                .antMatchers("/secured/users").hasRole(Authorities.Authority.ADMIN.name())
+                .antMatchers("/secured/**").authenticated();
     }
 
 }
