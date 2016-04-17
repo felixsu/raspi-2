@@ -1,5 +1,6 @@
 package com.felix.raspi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
  * Created by fsoewito on 4/17/2016.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather {
     private String timezone;
     private Integer offset;
@@ -40,7 +42,8 @@ public class Weather {
         this.currentWeather = currentWeather;
     }
 
-    public class CurrentWeather {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class CurrentWeather {
         private Long time;
         private String summary;
         private String icon;

@@ -1,5 +1,8 @@
 package com.felix.raspi.configuration;
 
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.PinState;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +28,13 @@ public class MainConfiguration extends WebMvcConfigurerAdapter {
         viewResolver.setSuffix(".jsp");
 
         return viewResolver;
+    }
+
+    @Bean
+    public GpioController gpioController(){
+        GpioController controller = GpioFactory.getInstance();
+        controller.setShutdownOptions(true, PinState.LOW);
+        return controller;
     }
 
     /*

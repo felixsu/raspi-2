@@ -45,16 +45,6 @@ public class GeneralController {
         return mv;
     }
 
-    @RequestMapping(
-            value = "/temperature",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseBody
-    public Temperature[] getAllTemperature(){
-        return temperatureService.readTemperature();
-    }
-
 
     private void extractTemperature(ModelAndView mv, Temperature t){
         Double tempDouble = t.getTemp().doubleValue()/1000;
