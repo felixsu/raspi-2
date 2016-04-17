@@ -3,7 +3,7 @@ package com.felix.raspi.controller;
 import com.felix.raspi.model.Temperature;
 import com.felix.raspi.model.entity.Authorities;
 import com.felix.raspi.model.entity.Users;
-import com.felix.raspi.service.GeneralService;
+import com.felix.raspi.service.TemperatureService;
 import com.felix.raspi.service.UserService;
 import com.felix.raspi.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +29,13 @@ public class GeneralController {
     private UserService userService;
 
     @Autowired
-    private GeneralService generalService;
+    private TemperatureService temperatureService;
 
     @RequestMapping(value = {"/", "/home", "/index"}, method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView homePage() {
         ModelAndView mv = new ModelAndView("welcome");
-        Temperature[] temperatures = generalService.readTemperature();
+        Temperature[] temperatures = temperatureService.readTemperature();
         if (temperatures.length == 0){
             Temperature t = new Temperature(null, null, new Date().getTime());
             extractTemperature(mv, t);
@@ -46,13 +46,13 @@ public class GeneralController {
     }
 
     @RequestMapping(
-            value = "/temp",
+            value = "/temperature",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseBody
     public Temperature[] getAllTemperature(){
-        return generalService.readTemperature();
+        return temperatureService.readTemperature();
     }
 
 

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
@@ -27,8 +26,8 @@ public class GeneralService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneralService.class.getName());
     private static final Logger TEMPERATURE_LOGGER = LoggerFactory.getLogger("temperature");
 
-    @Resource(name = "temperatureValueMap")
-    public ConcurrentMap<String, Integer> temperatureValueMap;
+    @Resource(name = "temperatureHolder")
+    public ConcurrentMap<String, Integer> temperatureHolder;
 
     @Autowired
     @Qualifier(value = "highTempLed")
@@ -44,11 +43,11 @@ public class GeneralService {
 
     @Scheduled(cron = "${bp.reportTemperature}")
     public void echo() {
-        if (temperatureValueMap.isEmpty()) {
+        if (temperatureHolder.isEmpty()) {
             LOGGER.info("holder is empty");
         } else {
             int i = 0;
-            for (Map.Entry<String, Integer> entry : temperatureValueMap.entrySet()) {
+            for (Map.Entry<String, Integer> entry : temperatureHolder.entrySet()) {
                 String key = entry.getKey();
                 Integer value = entry.getValue();
 
@@ -62,23 +61,6 @@ public class GeneralService {
             }
         }
     }
-
-    public Temperature[] readTemperature(){
-        if (temperatureValueMap.isEmpty()){
-            return new Temperature[]{};
-        }else {
-            Temperature[] result = new Temperature[temperatureValueMap.size()];
-            int i = 0;
-            for (Map.Entry<String, Integer> entry: temperatureValueMap.entrySet()){
-                Temperature t = new Temperature(entry.getKey(), entry.getValue(), new Date().getTime());
-                result[i] = t;
-                i++;
-            }
-            return result;
-        }
-    }
-
-
 
     private void updateLed(int value){
         if (value > 33000) {

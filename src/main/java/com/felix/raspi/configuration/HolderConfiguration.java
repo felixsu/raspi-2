@@ -1,5 +1,6 @@
 package com.felix.raspi.configuration;
 
+import com.felix.raspi.model.Weather;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +14,13 @@ import java.util.concurrent.ConcurrentMap;
 @Configuration
 public class HolderConfiguration {
 
-    @Bean(name = "temperatureValueMap")
+    @Bean(name = "temperatureHolder")
     public ConcurrentMap<String, Integer> temperatureValueMap(){
+        return new ConcurrentHashMap<>();
+    }
+
+    @Bean(name = "weatherHolder")
+    public ConcurrentMap<String, Weather> weatherHolder(){
         return new ConcurrentHashMap<>();
     }
 }

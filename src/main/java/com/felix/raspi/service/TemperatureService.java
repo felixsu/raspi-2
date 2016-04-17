@@ -1,5 +1,6 @@
 package com.felix.raspi.service;
 
+import com.felix.raspi.model.Temperature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -20,8 +23,8 @@ public class TemperatureService {
 
     private static final String ROOT = "/sys/bus/w1/devices";
 
-    @Resource(name = "temperatureValueMap")
-    public ConcurrentMap<String, Integer> temperatureValueMap;
+    @Resource(name = "temperatureHolder")
+    private ConcurrentMap<String, Integer> temperatureHolder;
 
     @Scheduled(cron = "${bp.temperatureScan}")
     public void scanTemperature() {
@@ -44,7 +47,7 @@ public class TemperatureService {
                             if (i == 1){
                                 String tempString = currentLine.substring(29,34);
                                 Integer temp = Integer.valueOf(tempString);
-                                temperatureValueMap.put(dirName, temp);
+                                temperatureHolder.put(dirName, temp);
                             }
                             i++;
                         }
@@ -66,6 +69,21 @@ public class TemperatureService {
                 }
 
             }
+        }
+    }
+
+    public Temperature[] readTemperature(){
+        if (temperatureHolder.isEmpty()){
+            return new Temperature[]{};
+        }else {
+            Temperature[] result = new Temperature[temperatureHolder.size()];
+            int i = 0;
+            for (Map.Entry<String, Integer> entry: temperatureHolder.entrySet()){
+                Temperature t = new Temperature(entry.getKey(), entry.getValue(), new Date().getTime());
+                result[i] = t;
+                i++;
+            }
+            return result;
         }
     }
 
