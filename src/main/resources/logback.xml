@@ -36,12 +36,10 @@
     </appender>
 
     <logger name="temperature" level="INFO">
-        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="TEMPERATURE_FILE"/>
     </logger>
 
     <root name="root" level="INFO">
-        <appender-ref ref="ROOT_FILE"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
