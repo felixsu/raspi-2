@@ -9,13 +9,13 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Weather {
+public class WeatherForecast {
     private String timezone;
     private Integer offset;
     @JsonProperty("currently")
     private CurrentWeather currentWeather;
 
-    public Weather() {
+    public WeatherForecast() {
     }
 
     public String getTimezone() {

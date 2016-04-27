@@ -35,10 +35,6 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="temperature" level="INFO">
-        <appender-ref ref="TEMPERATURE_FILE"/>
-    </logger>
-
     <root name="root" level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>

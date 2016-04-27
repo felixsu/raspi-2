@@ -20,6 +20,6 @@ public class RaspiServletListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
+        LOGGER.info("context destroy on ");
     }
 }

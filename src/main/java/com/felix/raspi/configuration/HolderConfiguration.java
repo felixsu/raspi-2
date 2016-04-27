@@ -1,8 +1,7 @@
 package com.felix.raspi.configuration;
 
-import com.felix.raspi.client.WeatherClient;
-import com.felix.raspi.model.Weather;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.felix.raspi.model.Temperature;
+import com.felix.raspi.model.WeatherForecast;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,13 +16,12 @@ import java.util.concurrent.ConcurrentMap;
 public class HolderConfiguration {
 
     @Bean(name = "temperatureHolder")
-    public ConcurrentMap<String, Integer> temperatureValueMap(){
+    public ConcurrentMap<String, Temperature> temperatureValueMap(){
         return new ConcurrentHashMap<>();
     }
 
     @Bean(name = "weatherHolder")
-    public ConcurrentMap<String, Weather> weatherHolder(){
-        ConcurrentMap<String, Weather> bean = new ConcurrentHashMap<>();
+    public ConcurrentMap<String, WeatherForecast> weatherHolder(){
         return new ConcurrentHashMap<>();
     }
 }

@@ -14,8 +14,7 @@
 
     <body>
         <p style="font-size:18pt; color: black">Probe ID : ${probeId}</p>
-        <p style="font-size:18pt; color: red">Current Temperature : ${temperature} oC</p>
-        <p style="font-size:18pt; color: grey">Current Time : ${time}</p>
+        <p style="font-size:18pt; color: red">Current Temperature : ${temperature}°C</p>
         <script>
             window.setTimeout(function(){
                 window.location = "http://172.30.44.94:8080/raspi/";

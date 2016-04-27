@@ -1,11 +1,10 @@
 package com.felix.raspi.client;
 
 import com.felix.raspi.configuration.WeatherConfiguration;
-import com.felix.raspi.model.Weather;
+import com.felix.raspi.model.WeatherForecast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -22,7 +21,7 @@ public class WeatherClient {
     @Autowired
     private WeatherConfiguration weatherConfiguration;
 
-    public Weather getCurrentWeather() {
+    public WeatherForecast getCurrentWeather() {
         String targetUrl = "https://api.forecast.io/forecast/" +
                 weatherConfiguration.getApiKey() +
                 "/" +
@@ -32,7 +31,7 @@ public class WeatherClient {
                 weatherConfiguration.getParam();
         LOGGER.info("targetUrl : " + targetUrl);
         RestTemplate restTemplate = new RestTemplate();
-        Weather result;
+        WeatherForecast result;
         try {
             SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
             simpleClientHttpRequestFactory.setConnectTimeout(5*1000);
@@ -40,11 +39,11 @@ public class WeatherClient {
 
             restTemplate.setRequestFactory(simpleClientHttpRequestFactory);
 
-            result = restTemplate.getForObject(targetUrl, Weather.class);
+            result = restTemplate.getForObject(targetUrl, WeatherForecast.class);
         } catch (RestClientException e) {
             LOGGER.error("error call forecast.io API", e);
-            result = new Weather();
-            result.setCurrentWeather(new Weather.CurrentWeather());
+            result = new WeatherForecast();
+            result.setCurrentWeather(new WeatherForecast.CurrentWeather());
         }
         return result;
     }

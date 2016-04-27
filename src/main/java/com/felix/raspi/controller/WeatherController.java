@@ -1,6 +1,7 @@
 package com.felix.raspi.controller;
 
-import com.felix.raspi.model.Weather;
+import com.felix.raspi.model.SimpleWeather;
+import com.felix.raspi.model.WeatherForecast;
 import com.felix.raspi.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,9 +28,31 @@ public class WeatherController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseBody
-    public Weather getWeather(){
-        Weather response = weatherService.readWeather();
+    public WeatherForecast getWeatherForecast(){
+        WeatherForecast response = weatherService.readWeather();
         response.getCurrentWeather().setTime(new Date().getTime());
         return response;
     }
+
+
+    @RequestMapping(
+            value = "/simple",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseBody
+    public SimpleWeather getCurrentWeather(){
+        return weatherService.readCurrentWeather();
+    }
+
+    @RequestMapping(
+            value = "/readBean",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseBody
+    public String[] getWeatherBeans(){
+        return weatherService.readBean();
+    }
+
 }

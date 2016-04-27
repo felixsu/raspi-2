@@ -5,7 +5,6 @@ import com.felix.raspi.model.entity.Authorities;
 import com.felix.raspi.model.entity.Users;
 import com.felix.raspi.service.TemperatureService;
 import com.felix.raspi.service.UserService;
-import com.felix.raspi.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,23 +33,17 @@ public class GeneralController {
     @ResponseBody
     public ModelAndView homePage() {
         ModelAndView mv = new ModelAndView("welcome");
-        Temperature[] temperatures = temperatureService.readTemperature();
-        if (temperatures.length == 0){
-            Temperature t = new Temperature(null, null, new Date().getTime());
-            extractTemperature(mv, t);
-        } else {
-            extractTemperature(mv, temperatures[0]);
-        }
+        Temperature temperature = temperatureService.readTemperature("default");
+
+        extractTemperature(mv, temperature);
         return mv;
     }
 
 
     private void extractTemperature(ModelAndView mv, Temperature t){
-        Double tempDouble = t.getTemp().doubleValue()/1000;
 
-        mv.addObject("probeId", t.getId());
-        mv.addObject("temperature", String.valueOf(tempDouble));
-        mv.addObject("time", DateUtil.dateAsString(DateUtil.DateFormat.COMMON, t.getTime()));
+        mv.addObject("probeId", t.getDeviceId());
+        mv.addObject("temperature", String.valueOf(t.getTemperature()));
     }
 
     @RequestMapping(

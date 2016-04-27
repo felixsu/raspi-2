@@ -7,11 +7,14 @@ public class TableConstant {
     //    sequence
     public static final String SEQ_AUTHORITIES = "seq_authorities_id";
     public static final String SEQ_USERS = "seq_users_id";
+    public static final String SEQ_TEMPERATURES = "seq_temperature_id";
 
     //    table name
     public static final String TABLE_USERS = "users";
     public static final String TABLE_AUTHORITIES = "authorities";
     public static final String TABLE_USERS_AUTHORITIES = "users_authorities";
+    public static final String TABLE_TEMPERATURE = "temperature";
+    public static final String TABLE_DEVICE_DETAILS = "device_details";
 
     //    COL NAME
     public static final String COL_ID = "id";
